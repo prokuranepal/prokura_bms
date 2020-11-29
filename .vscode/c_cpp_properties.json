@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/opt/ros/kinetic/include/**",
+                "/home/calcgen2/catkin_ws/devel/include/**",
+                "/home/calcgen2/catkin_ws/src/iq_gnc/include/**",
+                "/home/calcgen2/catkin_ws/src/mavros/libmavconn/include/**",
+                "/home/calcgen2/catkin_ws/src/mavros/mavros/include/**",
+                "/home/calcgen2/catkin_ws/src/mavros/mavros_msgs/include/**",
+                "/home/calcgen2/catkin_ws/src/offb/include/**",
+                "/home/calcgen2/catkin_ws/src/pro_fleet/include/**",
+                "/home/calcgen2/catkin_ws/src/mavros/test_mavros/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/lib/ccache/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

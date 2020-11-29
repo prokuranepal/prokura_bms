@@ -1,0 +1,7 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/calcgen2/catkin_ws/devel/lib/python2.7/dist-packages",
+        "/opt/ros/kinetic/lib/python2.7/dist-packages",
+        "/home/calcgen2/drone_workspace/mavlink/mavlink"
+    ]
+}
