@@ -1,19 +1,7 @@
 # This function returns an estimate of soc from a fully rested open-circuit-voltage 
 # of an LiPB cell
 
-import scipy.io
 import numpy as np
-model = scipy.io.loadmat('./soc/readonly/CellModel.mat')
-data = scipy.io.loadmat('./soc/readonly/CellData.mat')
-
-time = data['time']
-current = data['current']
-voltage = data['voltage']
-soc = data['soc']
-
-
-
-
 
 def SOCfromOCVtemp(ocv, temp, model):
     # name = model['model'][0][0][0]
@@ -64,6 +52,7 @@ def SOCfromOCVtemp(ocv, temp, model):
     soc[I6[0]] = 0
     print(soc[0],soc[9899])
     soc = np.reshape(soc,ocv.size)
+    return soc
 
 
-SOCfromOCVtemp(voltage, 25, model)
+
