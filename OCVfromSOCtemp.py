@@ -5,14 +5,20 @@
 #temp is cell temperature in degrees celsius,
 #and model is a cell model structure.
 
-import scipy.io
 import numpy as np
-model = scipy.io.loadmat('./soc/readonly/E2model.mat')
-data = scipy.io.loadmat('./soc/readonly/CellData.mat')
-soc = data['soc']
+
 def OCVfromSOCtemp(soc, temp, model):
     # name = model['model'][0][0][0]
-    soccol = soc[0]
+    soccol = np.array([])
+
+    if isinstance(soc, np.ndarray) == False:
+        soccol = np.append(soccol,soc)
+        # print(soccol, "false")
+        
+    else:
+        soccol = soc[0]
+        # print(soccol, "true")
+
     SOC = model['model'][0][0][2]
     OCV0 = model['model'][0][0][0]
     OCVrel = model['model'][0][0][1]
@@ -41,23 +47,23 @@ def OCVfromSOCtemp(soc, temp, model):
    
     ocv[I2[0]] = np.multiply((soccol[I2[0]]-SOC[0][SOC.size - 1]),dv[I2[0]])/diffSOC + OCV0[0][OCV0.size -1] + np.multiply(tempcol[I2[0]],OCVrel[0][OCVrel.size - 1])
 
-    I4 = np.zeros(len(I3[0]))
+    # I4 = np.zeros(len(soccol))
 
-    
-    I4[I3[0]] = (soccol- SOC[0][0])/diffSOC
+    I4 = (soccol[I3[0]]- SOC[0][0])/diffSOC
     
     I5 = np.floor(I4)
     I5 = I5.astype(int)
- 
+    # print(I5)
+    # print(ocv[I3[0]].size, I5.size, OCV0.size, I3[0].size, OCVrel[0].size)
     ocv[I3[0]] = np.multiply(OCV0[0][I5],(1-(I4-I5))) + np.multiply(OCV0[0][I5+1],(I4-I5))
 
-    ocv[I3[0]] = ocv[I3[0]] + np.multiply(tempcol,(np.multiply((1 - (I4 - I5)), OCVrel[0][I5]) + np.multiply(OCVrel[0][I5+1],(I4-I5))))
+    ocv[I3[0]] = ocv[I3[0]] + np.multiply(tempcol[I3[0]],(np.multiply((1 - (I4 - I5)), OCVrel[0][I5]) + np.multiply(OCVrel[0][I5+1],(I4-I5))))
   
-    # soc[I6[0]] = 0
-    print(ocv)
+    soc[I6[0]] = 0
+    # print(ocv[9999])
     # soc = np.reshape(soc,ocv.size);
 
 
-OCVfromSOCtemp(soc, 25, model)
+# OCVfromSOCtemp(soc, 25, model)
 
 
