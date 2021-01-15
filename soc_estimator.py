@@ -15,14 +15,15 @@ def init_spkf(v0, T0, SigmaX0, SigmaV, SigmaW, model):
     spkf_data['hkInd'] = 2
     spkf_data['zkInd'] = 3
     # initial state
-    spkf_data['xhat'] = np.array((ir0, hk0, SOC0), ndmin=2).T
+    spkf_data['xhat'] = np.array(np.hstack([ir0, hk0, SOC0]), ndmin=2).T
     spkf_data['SigmaX'] = SigmaX0
     spkf_data['SigmaV'] = SigmaV
     spkf_data['SigmaW'] = SigmaW
     spkf_data['Snoise'] = np.real(np.linalg.cholesky(
-        np.diag([SigmaW, SigmaV])
+        np.diag(np.hstack([SigmaW, SigmaV]))
     ))
     spkf_data['Qbump'] = 5
+#     print(spkf_data)
 
     # SPKF specific parameters
     Nx = len(spkf_data['xhat'])  # state-vector length
@@ -44,8 +45,10 @@ def init_spkf(v0, T0, SigmaX0, SigmaV, SigmaW, model):
     spkf_data['h'] = h  # spkf tuning factor
     weight1 = (h*h - Na)/(h*h)  # weighting factors when computing mean
     weight2 = 1/(2*h*h)  # and for covariance
-
-    spkf_data['Wm'] = np.array([weight1, weight2*np.ones(2*Na, 1)])
+#     print(spkf_data)
+#     print(weight2*np.ones((2*Na, 1)))
+    spkf_data['Wm'] = np.vstack([weight1, weight2*np.ones((2*Na, 1))])
+#     print(spkf_data['Wm'].shape)
     spkf_data['Wc'] = spkf_data['Wm']
 
     # previous value of current
@@ -56,7 +59,6 @@ def init_spkf(v0, T0, SigmaX0, SigmaV, SigmaW, model):
     spkf_data['model'] = model
 
     return spkf_data
-
 
 def iter_spkf(vk, ik, Tk, deltat, spkf_data):
     model = spkf_data['model']
